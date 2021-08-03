@@ -2,8 +2,8 @@
 provider "aws" {
     region = "ca-central-1"
     # will use default aws config and creds in env if not provided
-    access_key = "<your_access_key_if_not_configured_in_env>"
-    secret_key = "<your_secret_key_if_not_configured_in_env>"
+    # access_key = "<your_access_key_if_not_configured_in_env>"
+    # secret_key = "<your_secret_key_if_not_configured_in_env>"
 }
 
 # example object type variable - with model enforcement
@@ -149,6 +149,30 @@ resource "aws_instance" "terraform-instance" {
   key_name = aws_key_pair.terraform-ssh-key.key_name
 
   user_data = file("entry-script.sh")
+
+    #   connection {
+    #     type = "ssh"
+    #     host = self.public_ip
+    #     user = "ec2-user"
+    #     private_key = file("~/.ssh/id_rsa")
+    #   }
+
+    #   provisioner "file" {
+    #     source = "entry-script.sh"
+    #     destination = "/home/ec2-user/entry-script.sh"
+    #   }
+
+    #   provisioner "remote-exec" {
+    #     script = file("entry-script.sh")
+    #     # inline = [
+    #     #     "mkdir fileabc"
+    #     #     "export ENV=dev"
+    #     # ]
+    #   }
+
+    #   provisioner "local-exec" {
+    #     command = "Successfully provisioned resources, established connection, copied file source, and executed command on new aws instance ${self.public_ip}"
+    #   }
 
   tags = {
     Name = "terraform-instance-server"
